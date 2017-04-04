@@ -80,11 +80,11 @@ GLfloat scale = 1.5;
 
 // identyfikatory tekstur
 
-GLuint GROUND, WOOD, ROOF;
+GLuint GROUND, WOOD, ROOF, WALL;
 
 // identyfikatory list wyświetlania
 
-GLint GROUND_LIST, WOOD_LIST, ROOF_LIST;
+GLint GROUND_LIST, WOOD_LIST, ROOF_LIST, WALL_LIST;
 
 // filtr pomniejszający
 
@@ -169,6 +169,14 @@ void DisplayScene()
 	glTranslatef(0.0, -0.5, 0.0);
 	glScalef(0.5, 0.5, 0.5);
 	glCallList(WOOD_LIST);
+	glPopMatrix();
+
+	// rysowanie ścian bez okien
+	glBindTexture(GL_TEXTURE_2D, WALL);
+	glPushMatrix();
+	glTranslatef(0.0, -0.5, 0.0);
+	glScalef(0.5, 0.5, 0.5);
+	glCallList(WALL_LIST);
 	glPopMatrix();
 
 	// rysowanie dachu domku
@@ -423,6 +431,33 @@ void GenerateTextures()
 	// porządki
 	delete[](unsigned char*)pixels;
 
+	//////////////////////////////
+
+	// wczytanie tekstury roof_old_rectangle_color.tga
+	error = load_targa("roof_old_rectangle_color.tga", width, height, format, type, pixels);
+
+	// błąd odczytu pliku
+	if (error == GL_FALSE)
+	{
+		printf("Niepoprawny odczyt pliku roof_old_rectangle_color.tga");
+		exit(3);
+	}
+
+	// utworzenie identyfikatora tekstury
+	glGenTextures(1, &WALL);
+
+	// dowiązanie stanu tekstury
+	glBindTexture(GL_TEXTURE_2D, WALL);
+
+	// włączenie automatycznego generowania mipmap
+	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+
+	// definiowanie tekstury (z mipmapami)
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, type, pixels);
+
+	// porządki
+	delete[](unsigned char*)pixels;
+
 }
 
 // obsługa menu podręcznego
@@ -519,17 +554,18 @@ void GenerateDisplayLists()
 	glVertex3f(8.0, 0.0, -8.0);
 	glEnd();
 
-	// koniec pierwszej listy wyświetlania
+	// koniec drugiej listy wyświetlania
 	glEndList();
 
-	// generowanie identyfikatora drugiej listy wyświetlania
+	// generowanie identyfikatora trzeciej listy wyświetlania
 	WOOD_LIST = glGenLists(1);
 
-	// druga lista wyświetlania - ściany chatki
+	// trzecia lista wyświetlania - dach chatki
 	glNewList(WOOD_LIST, GL_COMPILE);
 
 	// seria trójkątów
 	glBegin(GL_TRIANGLES);
+
 
 	// przednia ściana
 	glTexCoord2f(-0.5, 0.0);
@@ -559,6 +595,21 @@ void GenerateDisplayLists()
 	glTexCoord2f(0.0, 2.0);
 	glVertex3f(1.0, -1.0, -1.0);
 
+	glEnd();
+
+	// koniec drugiej listy wyświetlania
+	glEndList();
+
+	// generowanie identyfikatora trzeciej listy wyświetlania
+	WALL_LIST = glGenLists(1);
+
+	// trzecia lista wyświetlania - dach chatki
+	glNewList(WALL_LIST, GL_COMPILE);
+
+
+
+	// seria trójkątów
+	glBegin(GL_TRIANGLES);
 
 	// lewa boczna ściana
 	glTexCoord2f(0.0, 0.0);
@@ -605,8 +656,9 @@ void GenerateDisplayLists()
 	glVertex3f(1.0, 1.0, -1.0);
 	glEnd();
 
-	// koniec drugiej listy wyświetlania
+	// koniec trzeciej listy wyświetlania
 	glEndList();
+
 
 	// generowanie identyfikatora trzeciej listy wyświetlania
 	ROOF_LIST = glGenLists(1);
@@ -614,6 +666,7 @@ void GenerateDisplayLists()
 	// trzecia lista wyświetlania - dach chatki
 	glNewList(ROOF_LIST, GL_COMPILE);
 
+	
 	// dwa czworokąty
 	glBegin(GL_QUADS);
 
