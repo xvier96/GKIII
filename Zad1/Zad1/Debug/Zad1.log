@@ -1,0 +1,9 @@
+﻿  Zad1.cpp
+c:\users\xvier\desktop\gkiii\zad1\zad1\zad1.cpp(82): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+c:\users\xvier\desktop\gkiii\zad1\zad1\zad1.cpp(258): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+c:\users\xvier\desktop\gkiii\zad1\zad1\zad1.cpp(267): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+c:\users\xvier\desktop\gkiii\zad1\zad1\zad1.cpp(378): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\xvier\desktop\gkiii\zad1\zad1\zad1.cpp(382): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\xvier\desktop\gkiii\zad1\zad1\zad1.cpp(386): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\xvier\desktop\gkiii\zad1\zad1\zad1.cpp(390): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+  Zad1.vcxproj -> C:\Users\Xvier\Desktop\GKIII\Zad1\Debug\Zad1.exe
